@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": ["https://www.rockwellautomation.com/en-us.html"],
+      "description": "Rockwell Automation homepage with hero, product categories, and promotional content",
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [".hero-carousel.carousel.panelcontainer"]
+        },
+        {
+          "name": "cards-quicklinks",
+          "instances": [".quick-links.homepage-design"]
+        },
+        {
+          "name": "cards-insights",
+          "instances": [".campaign-tags"]
+        },
+        {
+          "name": "columns-news",
+          "instances": [".company-news"]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero Carousel",
+          "selector": ".hero-carousel.carousel.panelcontainer",
+          "style": null,
+          "blocks": ["carousel-hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Quick Links Bar",
+          "selector": ".quick-links.homepage-design",
+          "style": null,
+          "blocks": ["cards-quicklinks"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "Global Leaders Statement",
+          "selector": ".generic-container.pad-top-max",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [".animated-header__header", ".animated-header__subtitle"]
+        },
+        {
+          "id": "section-4",
+          "name": "Latest Insights",
+          "selector": ".campaign-tags",
+          "style": "dark",
+          "blocks": ["cards-insights"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-5",
+          "name": "Rockwell Automation News",
+          "selector": ".company-news",
+          "style": null,
+          "blocks": ["columns-news"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-6",
+          "name": "Working Together / Brand Logos",
+          "selector": ".logo-links",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [".logo-links__title", ".logo-links__logo-container"]
+        }
+      ]
+    }
+  ]
+}

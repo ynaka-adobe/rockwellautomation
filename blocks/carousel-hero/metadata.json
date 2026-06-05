@@ -1,0 +1,39 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "version": "1.0.0",
+  "created": "2026-06-04T19:59:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.rockwellautomation.com/en-us.html",
+    "originPage": "homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "colored",
+    "density": "spacious",
+    "purpose": "homepage-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + description + CTA + image",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage hero banners",
+      "landing pages with multiple featured promotions",
+      "pages requiring rotating hero content with CTAs"
+    ],
+    "notSuitableFor": [
+      "simple single-image heroes",
+      "text-only page headers",
+      "product detail pages"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/en-us"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-04T19:59:00.000Z"
+  }
+}

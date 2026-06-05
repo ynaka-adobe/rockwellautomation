@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.rockwellautomation.com/en-us.html",
+  "path": "en-us",
+  "timestamp": "2026-06-04T20:19:40.176Z",
+  "title": "Smart Manufacturing Industrial Automation | Rockwell Automation | US",
+  "template": "homepage",
+  "blocks": [
+    "carousel-hero",
+    "cards-quicklinks",
+    "cards-insights",
+    "columns-news",
+    "columns-news"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "variantName": "cards-insights",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-04T19:59:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.rockwellautomation.com/en-us.html",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "content-insights",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + tags + heading + description",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "blog/article listing sections",
+      "filterable content grids",
+      "resource/insight cards on dark backgrounds",
+      "homepage featured content sections"
+    ],
+    "notSuitableFor": [
+      "simple icon-based navigation",
+      "product feature grids without images",
+      "compact utility link bars"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/en-us"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-04T19:59:00.000Z"
+  }
+}

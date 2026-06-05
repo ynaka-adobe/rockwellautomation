@@ -1,0 +1,182 @@
+/* Block: columns-news */
+
+.columns-news {
+  position: relative;
+  overflow: hidden;
+}
+
+.columns-news > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Text content cell */
+.columns-news > div > div:first-child {
+  position: relative;
+  z-index: 1;
+  padding: 40px 0;
+}
+
+.columns-news > div > div:first-child h2 {
+  font-size: 36px;
+  font-weight: 500;
+  font-family: var(--heading-font-family);
+  line-height: 1.1;
+  color: var(--text-color);
+  margin: 0 0 24px;
+}
+
+/* Reset EDS button styling on news links - they should be plain links */
+.columns-news > div > div:first-child p.button-container {
+  display: block;
+  padding: 16px 0;
+  border-bottom: 1px solid rgb(229 230 233);
+  margin: 0;
+}
+
+.columns-news > div > div:first-child p.button-container a.button {
+  display: inline;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: var(--text-color);
+  font-size: 20px;
+  font-weight: 400;
+  font-family: var(--body-font-family);
+  line-height: 1.4;
+  text-align: left;
+  white-space: normal;
+  text-overflow: unset;
+  transition: none;
+}
+
+.columns-news > div > div:first-child p.button-container a.button:hover {
+  background: none;
+  border: none;
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* CTA button - "Visit the Newsroom" - keep as styled button */
+.columns-news > div > div:first-child p.button-container:last-child {
+  border-bottom: none;
+  padding-top: 24px;
+}
+
+.columns-news > div > div:first-child p.button-container:last-child a.button,
+.columns-news > div > div:first-child p.button-container:last-child a.button.primary {
+  display: inline-block;
+  background-color: var(--link-color);
+  color: #fff;
+  padding: 4px 24px 6px;
+  border: 2px solid var(--link-color);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.columns-news > div > div:first-child p.button-container:last-child a.button:hover,
+.columns-news > div > div:first-child p.button-container:last-child a.button.primary:hover {
+  background-color: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Image column */
+.columns-news > div > .columns-news-img-col {
+  order: -1;
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.columns-news > div > .columns-news-img-col p {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0;
+  height: 100%;
+}
+
+.columns-news > div > .columns-news-img-col picture {
+  overflow: hidden;
+}
+
+.columns-news > div > .columns-news-img-col picture:first-child {
+  grid-column: 1 / -1;
+}
+
+.columns-news > div > .columns-news-img-col img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (width >= 900px) {
+  .columns-news > div {
+    flex-direction: row;
+    min-height: 700px;
+  }
+
+  /* Text content cell - left side ~40% */
+  .columns-news > div > div:first-child {
+    flex: 0 0 40%;
+    padding: 80px 0;
+  }
+
+  .columns-news > div > div:first-child h2 {
+    font-size: 56px;
+    line-height: 50px;
+    margin: 0 0 32px;
+  }
+
+  /* Image column - right side, absolutely positioned behind */
+  .columns-news > div > .columns-news-img-col {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    order: unset;
+    min-height: unset;
+  }
+
+  .columns-news > div > .columns-news-img-col p {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+    height: 100%;
+  }
+
+  .columns-news > div > .columns-news-img-col picture:first-child {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .columns-news > div > .columns-news-img-col picture:nth-child(2) {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .columns-news > div > .columns-news-img-col picture:nth-child(3) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+
+  .columns-news > div > .columns-news-img-col picture:nth-child(4) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  .columns-news > div > .columns-news-img-col picture:nth-child(5) {
+    display: none;
+  }
+}

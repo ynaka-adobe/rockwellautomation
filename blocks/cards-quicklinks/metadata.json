@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-quicklinks",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-04T19:59:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.rockwellautomation.com/en-us.html",
+    "originPage": "homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "quick-links",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon + label link",
+    "buttonCount": 0,
+    "imageCount": 5
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage quick navigation bars",
+      "icon-based resource links",
+      "compact utility navigation sections"
+    ],
+    "notSuitableFor": [
+      "content cards with images and descriptions",
+      "product feature grids",
+      "article listing cards"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/en-us"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-04T19:59:00.000Z"
+  }
+}

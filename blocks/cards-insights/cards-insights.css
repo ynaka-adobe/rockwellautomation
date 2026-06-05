@@ -1,0 +1,201 @@
+/* Block: cards-insights
+ * Migrated from source: .campaign-tags
+ * Layout: gradient header with title + 3-column card grid
+ */
+
+/* --- Wrapper: full width with gradient background --- */
+.cards-insights-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+  background: linear-gradient(270deg, rgb(141 0 52), rgb(0 62 126) 52.34%);
+}
+
+/* --- Block container --- */
+.cards-insights {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 48px 40px 64px;
+}
+
+/* --- Card list (ul) --- */
+.cards-insights > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+@media (width >= 600px) {
+  .cards-insights > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards-insights > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- Header card (first li) - spans full width --- */
+.cards-insights > ul > li:first-child {
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+  text-align: center;
+  padding: 0 0 30px;
+}
+
+@media (width >= 600px) {
+  .cards-insights > ul > li:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Header: "Latest Insights" subtitle */
+.cards-insights > ul > li:first-child .cards-insights-card-body {
+  padding: 0;
+}
+
+.cards-insights > ul > li:first-child .cards-insights-card-body > div:first-child,
+.cards-insights > ul > li:first-child .cards-insights-card-body > p:first-child {
+  font-size: 28px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 4px;
+}
+
+/* Header: main title */
+.cards-insights > ul > li:first-child h2 {
+  font-size: 36px;
+  font-weight: 400;
+  font-family: var(--heading-font-family);
+  line-height: 1;
+  color: #fff;
+  margin: 4px 0 16px;
+}
+
+@media (width >= 900px) {
+  .cards-insights > ul > li:first-child h2 {
+    font-size: 56px;
+    line-height: 56px;
+  }
+}
+
+/* --- Content cards (li 2+) --- */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards-insights > ul > li:not(:first-child) {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 25%) 0 1px 5px 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Card image section --- */
+.cards-insights .cards-insights-card-image {
+  height: 180px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.cards-insights .cards-insights-card-image picture {
+  display: block;
+  height: 100%;
+}
+
+.cards-insights .cards-insights-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Card body section --- */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards-insights > ul > li:not(:first-child) .cards-insights-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Tag label (first p - "blog", "case study") */
+.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:first-child {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(109 110 113);
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  line-height: 1.4;
+}
+
+/* Card title (second p) */
+.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:nth-child(2) {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-color);
+  line-height: 28px;
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+}
+
+/* Card description (third p) */
+.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:nth-child(3) {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-color);
+  line-height: 22px;
+  margin: 0 0 auto;
+}
+
+/* Read More link (last p with link) */
+.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:last-child {
+  margin-top: 16px;
+}
+
+.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:last-child a {
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:last-child a:hover {
+  text-decoration: underline;
+}
+
+/* --- Button reset: EDS auto-decorates <p><a> as buttons --- */
+main .cards-insights .button-container {
+  display: block;
+}
+
+main .cards-insights a.button:any-link {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  white-space: normal;
+}
+
+main .cards-insights a.button:hover,
+main .cards-insights a.button:focus {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  color: var(--link-color);
+}
+
+/* --- Card hover effect --- */
+.cards-insights > ul > li:not(:first-child):hover {
+  box-shadow: rgb(0 0 0 / 30%) 0 2px 8px 0;
+  transition: box-shadow 0.2s ease;
+}

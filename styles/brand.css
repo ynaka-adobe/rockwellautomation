@@ -1,0 +1,21 @@
+:root {
+  --heading-font-family: "Barlow", arial, "Helvetica Neue", helvetica, sans-serif;
+  --body-font-family: "Barlow", arial, "Helvetica Neue", helvetica, sans-serif;
+  --background-color: #fff;
+  --text-color: #2d2d2d;
+  --link-color: #1968b3;
+  --link-hover-color: #2d2d2d;
+  --section-padding: 64px 16px;
+  --nav-height: 64px;
+  --content-max-width: 1600px;
+  --heading-size-xxl: 64px;
+  --heading-size-xl: 48px;
+  --heading-size-l: 32px;
+  --heading-size-m: 24px;
+  --heading-size-s: 20px;
+  --heading-size-xs: 18px;
+  --brand-red: #cd163f;
+  --brand-blue: #003e7e;
+  --brand-light-blue: #00aeef;
+  --dark-bg: #0b1e3e;
+}
