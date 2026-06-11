@@ -131,7 +131,7 @@ pre {
 }
 
 main > div {
-  margin: 40px 16px;
+  margin: 40px 0;
 }
 
 input,
@@ -231,23 +231,25 @@ main img {
 main > .section {
   margin: 0;
   padding: var(--section-padding);
+  padding-left: 0;
+  padding-right: 0;
 }
 
 main > .section > div {
-  max-width: var(--content-max-width);
   margin: auto;
-  padding: 0 24px;
+  padding: 0 40px;
+}
+
+main > .section > .default-content-wrapper {
+  max-width: 900px;
+  text-align: left;
+  padding-bottom: 200px;
 }
 
 main > .section:first-of-type {
   padding-top: 0;
 }
 
-@media (width >= 900px) {
-  main > .section > div {
-    padding: 0 32px;
-  }
-}
 
 /* section metadata */
 main .section.light,

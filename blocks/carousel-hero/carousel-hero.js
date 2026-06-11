@@ -1,5 +1,7 @@
 import { fetchPlaceholders } from '../../scripts/aem.js';
 
+const AUTOPLAY_INTERVAL = 5000; // 5 seconds
+
 function updateActiveSlide(slide) {
   const block = slide.closest('.carousel-hero');
   const slideIndex = parseInt(slide.dataset.slideIndex, 10);
@@ -42,23 +44,70 @@ export function showSlide(block, slideIndex = 0) {
   });
 }
 
+function startAutoplay(block) {
+  const slides = block.querySelectorAll('.carousel-hero-slide');
+  if (slides.length < 2) return; // Don't autoplay single slide
+
+  const autoplayInterval = setInterval(() => {
+    const currentSlideIndex = parseInt(block.dataset.activeSlide, 10);
+    showSlide(block, currentSlideIndex + 1);
+  }, AUTOPLAY_INTERVAL);
+
+  block.dataset.autoplayInterval = autoplayInterval;
+
+  // Pause on hover/focus
+  block.addEventListener('mouseenter', () => {
+    clearInterval(parseInt(block.dataset.autoplayInterval, 10));
+  });
+
+  block.addEventListener('mouseleave', () => {
+    clearInterval(parseInt(block.dataset.autoplayInterval, 10));
+    startAutoplay(block);
+  });
+
+  // Handle keyboard focus
+  block.addEventListener('focusin', () => {
+    clearInterval(parseInt(block.dataset.autoplayInterval, 10));
+  });
+
+  block.addEventListener('focusout', () => {
+    if (!block.matches(':hover')) {
+      startAutoplay(block);
+    }
+  });
+}
+
 function bindEvents(block) {
   const slideIndicators = block.querySelector('.carousel-hero-slide-indicators');
   if (!slideIndicators) return;
 
   slideIndicators.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (e) => {
+      clearInterval(parseInt(block.dataset.autoplayInterval, 10));
       const slideIndicator = e.currentTarget.parentElement;
       showSlide(block, parseInt(slideIndicator.dataset.targetSlide, 10));
+      startAutoplay(block);
     });
   });
 
-  block.querySelector('.slide-prev').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) - 1);
-  });
-  block.querySelector('.slide-next').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) + 1);
-  });
+  const prevButton = block.querySelector('.slide-prev');
+  const nextButton = block.querySelector('.slide-next');
+
+  if (prevButton) {
+    prevButton.addEventListener('click', () => {
+      clearInterval(parseInt(block.dataset.autoplayInterval, 10));
+      showSlide(block, parseInt(block.dataset.activeSlide, 10) - 1);
+      startAutoplay(block);
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener('click', () => {
+      clearInterval(parseInt(block.dataset.autoplayInterval, 10));
+      showSlide(block, parseInt(block.dataset.activeSlide, 10) + 1);
+      startAutoplay(block);
+    });
+  }
 
   const slideObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -145,6 +194,14 @@ export default async function decorate(block) {
   block.prepend(container);
 
   if (!isSingleSlide) {
+    // Initialize first slide
+    const firstSlide = block.querySelector('.carousel-hero-slide');
+    if (firstSlide) {
+      updateActiveSlide(firstSlide);
+      showSlide(block, 0);
+    }
+
     bindEvents(block);
+    startAutoplay(block);
   }
 }

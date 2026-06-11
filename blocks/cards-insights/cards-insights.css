@@ -1,20 +1,98 @@
 /* Block: cards-insights
- * Migrated from source: .campaign-tags
- * Layout: gradient header with title + 3-column card grid
+ * Gradient background spans the whole section (eyebrow + heading live in default-content-wrapper above the block)
  */
 
-/* --- Wrapper: full width with gradient background --- */
+/* --- Section: full-width gradient covering both the header text and the block --- */
+main > .section.cards-insights-container {
+  background: linear-gradient(270deg, rgb(141 0 52), rgb(0 62 126) 52.34%);
+  padding-bottom: 64px;
+}
+
+/* --- Default content (eyebrow p + h2) above the block inside the same section --- */
+main > .section.cards-insights-container > .default-content-wrapper {
+  max-width: var(--content-max-width);
+  padding: 48px 40px 0;
+  text-align: center;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+main > .section.cards-insights-container > .default-content-wrapper p {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px;
+}
+
+main > .section.cards-insights-container > .default-content-wrapper h2 {
+  font-size: 36px;
+  font-weight: 400;
+  font-family: var(--heading-font-family);
+  line-height: 1;
+  color: #fff;
+  margin: 4px 0 0;
+}
+
+@media (width >= 900px) {
+  main > .section.cards-insights-container > .default-content-wrapper h2 {
+    font-size: 56px;
+    line-height: 56px;
+  }
+}
+
+/* --- Wrapper: full width, no extra padding --- */
 .cards-insights-wrapper {
   max-width: 100% !important;
   padding: 0 !important;
-  background: linear-gradient(270deg, rgb(141 0 52), rgb(0 62 126) 52.34%);
 }
 
 /* --- Block container --- */
 .cards-insights {
   max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 48px 40px 64px;
+  padding: 0 40px 0;
+}
+
+/* --- Filter bar --- */
+.cards-insights-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 24px 0 32px;
+  justify-content: center;
+}
+
+.cards-insights-filter-label {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.cards-insights-filter-btn {
+  background: transparent;
+  border: 1.5px solid rgb(255 255 255 / 70%);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--body-font-family);
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.cards-insights-filter-btn:hover {
+  background: rgb(255 255 255 / 15%);
+  border-color: #fff;
+}
+
+.cards-insights-filter-btn.is-active {
+  background: rgb(255 255 255 / 25%);
+  border-color: #fff;
+  font-weight: 700;
 }
 
 /* --- Card list (ul) --- */
@@ -39,64 +117,33 @@
   }
 }
 
-/* --- Header card (first li) - spans full width --- */
-.cards-insights > ul > li:first-child {
-  background-color: transparent;
-  box-shadow: none;
-  border-radius: 0;
-  overflow: visible;
-  text-align: center;
-  padding: 0 0 30px;
-}
-
-@media (width >= 600px) {
-  .cards-insights > ul > li:first-child {
-    grid-column: 1 / -1;
-  }
-}
-
-/* Header: "Latest Insights" subtitle */
-.cards-insights > ul > li:first-child .cards-insights-card-body {
-  padding: 0;
-}
-
-.cards-insights > ul > li:first-child .cards-insights-card-body > div:first-child,
-.cards-insights > ul > li:first-child .cards-insights-card-body > p:first-child {
-  font-size: 28px;
-  font-weight: 400;
-  color: #fff;
-  margin: 0 0 4px;
-}
-
-/* Header: main title */
-.cards-insights > ul > li:first-child h2 {
-  font-size: 36px;
-  font-weight: 400;
-  font-family: var(--heading-font-family);
-  line-height: 1;
-  color: #fff;
-  margin: 4px 0 16px;
-}
-
-@media (width >= 900px) {
-  .cards-insights > ul > li:first-child h2 {
-    font-size: 56px;
-    line-height: 56px;
-  }
-}
-
-/* --- Content cards (li 2+) --- */
-/* stylelint-disable-next-line no-descending-specificity */
-.cards-insights > ul > li:not(:first-child) {
+/* --- Content cards --- */
+.cards-insights > ul > li {
   background-color: #fff;
   border-radius: 4px;
   box-shadow: rgb(0 0 0 / 25%) 0 1px 5px 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* Scroll-in: start below, stagger by column */
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--col, 0) * 150ms),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--col, 0) * 150ms);
 }
 
-/* --- Card image section --- */
+.cards-insights > ul > li.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hidden by active filter */
+.cards-insights > ul > li.is-filtered-out {
+  display: none;
+}
+
+/* --- Card image --- */
 .cards-insights .cards-insights-card-image {
   height: 180px;
   overflow: hidden;
@@ -114,17 +161,16 @@
   object-fit: cover;
 }
 
-/* --- Card body section --- */
-/* stylelint-disable-next-line no-descending-specificity */
-.cards-insights > ul > li:not(:first-child) .cards-insights-card-body {
+/* --- Card body --- */
+.cards-insights > ul > li .cards-insights-card-body {
   padding: 20px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-/* Tag label (first p - "blog", "case study") */
-.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:first-child {
+/* Tag label ("blog", "case study") */
+.cards-insights > ul > li .cards-insights-card-body p:first-child {
   font-size: 14px;
   font-weight: 400;
   color: rgb(109 110 113);
@@ -133,8 +179,8 @@
   line-height: 1.4;
 }
 
-/* Card title (second p) */
-.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:nth-child(2) {
+/* Card title */
+.cards-insights > ul > li .cards-insights-card-body p:nth-child(2) {
   font-size: 24px;
   font-weight: 500;
   color: var(--text-color);
@@ -143,8 +189,8 @@
   font-family: var(--heading-font-family);
 }
 
-/* Card description (third p) */
-.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:nth-child(3) {
+/* Card description */
+.cards-insights > ul > li .cards-insights-card-body p:nth-child(3) {
   font-size: 16px;
   font-weight: 400;
   color: var(--text-color);
@@ -152,23 +198,23 @@
   margin: 0 0 auto;
 }
 
-/* Read More link (last p with link) */
-.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:last-child {
+/* Read More link */
+.cards-insights > ul > li .cards-insights-card-body p:last-child {
   margin-top: 16px;
 }
 
-.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:last-child a {
+.cards-insights > ul > li .cards-insights-card-body p:last-child a {
   color: var(--link-color);
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
 }
 
-.cards-insights > ul > li:not(:first-child) .cards-insights-card-body p:last-child a:hover {
+.cards-insights > ul > li .cards-insights-card-body p:last-child a:hover {
   text-decoration: underline;
 }
 
-/* --- Button reset: EDS auto-decorates <p><a> as buttons --- */
+/* --- Button reset: EDS auto-decorates standalone links as buttons --- */
 main .cards-insights .button-container {
   display: block;
 }
@@ -195,7 +241,17 @@ main .cards-insights a.button:focus {
 }
 
 /* --- Card hover effect --- */
-.cards-insights > ul > li:not(:first-child):hover {
+.cards-insights > ul > li:hover {
   box-shadow: rgb(0 0 0 / 30%) 0 2px 8px 0;
   transition: box-shadow 0.2s ease;
+}
+
+.cards-insights > ul > li.no-transition {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cards-insights > ul > li {
+    transition: none;
+  }
 }

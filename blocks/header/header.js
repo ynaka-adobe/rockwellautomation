@@ -55,6 +55,28 @@ function toggleMobileMenu(nav, forceState = null) {
 }
 
 /**
+ * Globe icon SVG for locale selector
+ * @returns {string}
+ */
+function getGlobeIcon() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+  </svg>`;
+}
+
+/**
+ * Chevron down icon SVG
+ * @returns {string}
+ */
+function getChevronIcon() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>`;
+}
+
+/**
  * Builds the utility bar (top row)
  * @param {Element[]} utilityLinks - array of anchor elements
  * @returns {Element}
@@ -63,9 +85,10 @@ function buildUtilityBar(utilityLinks) {
   const bar = document.createElement('div');
   bar.className = 'nav-utility-bar';
 
-  const locale = document.createElement('span');
+  const locale = document.createElement('button');
   locale.className = 'nav-locale';
-  locale.textContent = 'US | EN';
+  locale.setAttribute('aria-label', 'Select region and language: US English');
+  locale.innerHTML = `${getGlobeIcon()}<span>US|EN</span>${getChevronIcon()}`;
   bar.append(locale);
 
   const links = document.createElement('ul');
@@ -73,6 +96,12 @@ function buildUtilityBar(utilityLinks) {
   utilityLinks.forEach((a) => {
     const li = document.createElement('li');
     const link = a.cloneNode(true);
+    // Add chevron to "Resources" link (last item with sub-items)
+    const text = link.textContent.trim().toLowerCase();
+    if (text === 'resources') {
+      link.classList.add('nav-utility-has-dropdown');
+      link.innerHTML = `${link.textContent}${getChevronIcon()}`;
+    }
     li.append(link);
     links.append(li);
   });
@@ -105,37 +134,32 @@ function getAccountIcon() {
 
 /**
  * Builds the main navigation bar (second row)
- * @param {Element} logoSection - logo section div from nav
  * @param {Element[]} navItems - top-level nav list items
  * @returns {Element}
  */
-function buildMainBar(logoSection, navItems) {
+function buildMainBar(navItems) {
   const bar = document.createElement('div');
   bar.className = 'nav-main-bar';
 
   // Logo
   const brand = document.createElement('div');
   brand.className = 'nav-brand';
-  const logoLink = logoSection.querySelector('a');
-  const logoImg = logoSection.querySelector('img');
-  if (logoLink && logoImg) {
-    const a = document.createElement('a');
-    a.href = logoLink.href;
-    a.setAttribute('aria-label', 'Rockwell Automation Home');
-    const img = document.createElement('img');
-    img.src = logoImg.src;
-    img.alt = logoImg.alt || 'Rockwell Automation';
-    img.loading = 'eager';
-    a.append(img);
-    brand.append(a);
-  }
+  const a = document.createElement('a');
+  a.href = '/en-us.html';
+  a.setAttribute('aria-label', 'Rockwell Automation Home');
+  const img = document.createElement('img');
+  img.src = 'https://www.rockwellautomation.com/content/dam/rockwell-automation/sites/images/logos/2019_Logo_rgb_RA_Bug-LeftText_color.svg';
+  img.alt = 'Rockwell Automation';
+  img.loading = 'eager';
+  a.append(img);
+  brand.append(a);
   bar.append(brand);
 
   // Nav links
   const navLinks = document.createElement('div');
   navLinks.className = 'nav-main-links';
   navItems.forEach((item, index) => {
-    const topLink = item.querySelector(':scope > a');
+    const topLink = item.querySelector(':scope > p > a, :scope > a');
     if (!topLink) return;
 
     const trigger = document.createElement('button');
@@ -193,7 +217,7 @@ function buildDropdownPanels(navItems) {
     panel.className = 'nav-dropdown-panel';
     panel.setAttribute('data-index', index);
 
-    const topLink = item.querySelector(':scope > a');
+    const topLink = item.querySelector(':scope > p > a, :scope > a');
     const panelHeader = document.createElement('div');
     panelHeader.className = 'nav-dropdown-header';
     if (topLink) {
@@ -241,7 +265,7 @@ function buildMobileMenu(navItems, utilityLinks) {
 
   // Main nav accordion
   navItems.forEach((item) => {
-    const topLink = item.querySelector(':scope > a');
+    const topLink = item.querySelector(':scope > p > a, :scope > a');
     if (!topLink) return;
 
     const section = document.createElement('div');
@@ -324,19 +348,21 @@ function buildMobileMenu(navItems, utilityLinks) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  const navDoc = await fetchNav();
-  if (!navDoc) return;
+  let navItems = [];
+  let utilityLinks = [];
 
-  // Parse 4 sections from nav DOM
-  const sections = navDoc.body.querySelectorAll(':scope > div');
-  const logoSection = sections[0]; // logo
-  const mainNavSection = sections[1]; // main nav with nested items
-  const utilitySection = sections[2]; // utility links
-  // const resourcesSection = sections[3]; // resources links (available if needed)
-
-  // Extract data
-  const navItems = mainNavSection ? [...mainNavSection.querySelectorAll(':scope > ul > li')] : [];
-  const utilityLinks = utilitySection ? [...utilitySection.querySelectorAll(':scope > ul > li > a')] : [];
+  try {
+    const navDoc = await fetchNav();
+    if (navDoc) {
+      const sections = navDoc.body.querySelectorAll(':scope > div');
+      const mainNavSection = sections[1];
+      const utilitySection = sections[2];
+      navItems = mainNavSection ? [...mainNavSection.querySelectorAll(':scope > ul > li')] : [];
+      utilityLinks = utilitySection ? [...utilitySection.querySelectorAll(':scope > ul > li > a')] : [];
+    }
+  } catch (e) {
+    // nav fetch failed — render logo + shell without nav items
+  }
 
   // Build header structure
   block.textContent = '';
@@ -345,11 +371,14 @@ export default async function decorate(block) {
   nav.setAttribute('aria-label', 'Main navigation');
 
   // 1. Utility bar (top row - 40px)
+  const utilityBarWrapper = document.createElement('div');
+  utilityBarWrapper.className = 'nav-utility-bar-wrapper';
   const utilityBar = buildUtilityBar(utilityLinks);
-  nav.append(utilityBar);
+  utilityBarWrapper.append(utilityBar);
+  nav.append(utilityBarWrapper);
 
   // 2. Main bar (bottom row - 72px)
-  const mainBar = buildMainBar(logoSection, navItems);
+  const mainBar = buildMainBar(navItems);
   nav.append(mainBar);
 
   // 3. Dropdown panels (desktop megamenu)

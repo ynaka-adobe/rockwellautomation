@@ -175,6 +175,7 @@ window.__dmRender__ = (src, alt) => {
  * @param {Element} main The container element
  */
 function buildHeroBlock(main) {
+  if (main.querySelector('.hero-carousel')) return;
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
   // eslint-disable-next-line no-bitwise
@@ -214,7 +215,9 @@ function autolinkModals(doc) {
  */
 function buildAutoBlocks(main) {
   try {
-    if (!main.querySelector('.hero')) buildHeroBlock(main);
+    if (!main.querySelector('.hero') && !main.querySelector('.carousel-hero')) {
+      buildHeroBlock(main);
+    }
     buildDynamicMediaImages(main);
   } catch (error) {
     // eslint-disable-next-line no-console

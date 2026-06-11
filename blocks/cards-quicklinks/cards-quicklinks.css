@@ -1,33 +1,49 @@
-/* cards-quicklinks block - Quick links horizontal navigation bar */
+/* cards-quicklinks block — floating card that overlays the bottom of the hero */
 
-/* Source: .quick-links.homepage-design on rockwellautomation.com */
+/* Strip section wrapper padding; add horizontal breathing room for the card shadow */
+main > .section > .cards-quicklinks-wrapper {
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+  margin-top: -56px;
+}
 
+/* Collapse the section's 64px top/bottom padding — this tight bar needs none */
+main > .section:has(.cards-quicklinks-wrapper) {
+  padding-top: 0;
+  padding-bottom: 24px;
+}
+
+/* The ul IS the visible white card */
 .cards-quicklinks > ul {
   list-style: none;
-  margin: 0;
-  padding: 16px 10px;
+  margin: 0 auto;
+  padding: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: stretch;
   background-color: #fff;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 18%);
+  border-radius: 8px;
+  max-width: 960px;
+  overflow: hidden;
 }
 
 .cards-quicklinks > ul > li {
   flex: 1 1 0%;
   margin: 0;
-  padding: 12px 0;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .cards-quicklinks > ul > li:not(:last-child) {
-  border-bottom: 1px solid rgb(229 230 233);
+  border-right: 1px solid rgb(229 230 233);
 }
 
 .cards-quicklinks .cards-quicklinks-card-body {
   margin: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,75 +51,135 @@
 
 .cards-quicklinks .cards-quicklinks-card-body p {
   margin: 0;
+  width: 100%;
 }
 
-/* Reset EDS button styling - these are plain navigation links */
-main .cards-quicklinks a.button:any-link,
-main .cards-quicklinks a.button:hover,
-main .cards-quicklinks a.button:focus {
-  display: inline;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  color: var(--link-color);
-  font-size: 16px;
-  font-weight: 400;
-  font-family: var(--body-font-family);
-  line-height: 24px;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.3s ease-out;
-}
-
+/* The anchor is the clickable surface — column layout: icon above label */
 .cards-quicklinks a:any-link {
-  display: inline;
-  color: var(--link-color);
-  font-size: 16px;
-  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 20px 12px;
+  color: var(--brand-red);
+  font-size: 13px;
+  font-weight: 600;
   font-family: var(--body-font-family);
-  line-height: 24px;
+  line-height: 1.3;
   text-align: center;
   text-decoration: none;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.3s ease-out;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .cards-quicklinks a:hover {
+  color: var(--brand-blue);
+  background-color: #f9f9fb;
   text-decoration: none;
-  border-bottom: 2px solid var(--link-color);
 }
 
-/* Remove button-container wrapper styling */
+/* Icon container */
+.cards-quicklinks-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.cards-quicklinks-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+/* SVG paths use cls-1 from the RA icon set — map to currentColor */
+.cards-quicklinks-icon .cls-1 {
+  fill: currentColor;
+}
+
+/* Reset EDS button override — these links are NOT buttons */
+main .cards-quicklinks a.button:any-link,
+main .cards-quicklinks a.button:hover,
+main .cards-quicklinks a.button:focus {
+  display: flex;
+  margin: 0;
+  padding: 20px 12px;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--brand-red);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--body-font-family);
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: normal;
+}
+
+main .cards-quicklinks a.button:hover,
+main .cards-quicklinks a.button:focus {
+  color: var(--brand-blue);
+  background-color: #f9f9fb;
+}
+
 .cards-quicklinks .button-container {
-  display: inline;
+  display: contents;
   margin: 0;
 }
 
-@media (width >= 900px) {
+/* Mobile: 2-column grid */
+@media (width <= 599px) {
+  main > .section > .cards-quicklinks-wrapper {
+    padding: 0 16px;
+    margin-top: -40px;
+  }
+
   .cards-quicklinks > ul {
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 24px 10px;
-    min-height: 72px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 8px;
   }
 
   .cards-quicklinks > ul > li {
-    flex: 1 1 0%;
-    margin: 0 12px;
-    padding: 0;
-    position: relative;
-    border-bottom: none;
-    justify-content: center;
+    border-right: none;
+    border-bottom: 1px solid rgb(229 230 233);
   }
 
-  .cards-quicklinks > ul > li:not(:last-child) {
-    border-bottom: none;
+  .cards-quicklinks > ul > li:nth-child(odd) {
     border-right: 1px solid rgb(229 230 233);
-    padding-right: 24px;
+  }
+
+  .cards-quicklinks > ul > li:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .cards-quicklinks a:any-link {
+    padding: 16px 8px;
+    font-size: 12px;
+  }
+
+  .cards-quicklinks-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Tablet: horizontal but tighter */
+@media (width >= 600px) and (width <= 899px) {
+  main > .section > .cards-quicklinks-wrapper {
+    margin-top: -44px;
+  }
+
+  .cards-quicklinks a:any-link {
+    padding: 16px 8px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .cards-quicklinks-icon svg {
+    width: 32px;
+    height: 32px;
   }
 }
