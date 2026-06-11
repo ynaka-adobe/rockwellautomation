@@ -16,6 +16,10 @@ import {
   toClassName,
   toCamelCase,
 } from './aem.js';
+import {
+  loadTarget,
+  applyTargetHeroMboxIfConfigured,
+} from './target.js';
 
 // --- BEGIN DM/Scene7 auto-block (excat-generated) ---
 
@@ -371,8 +375,10 @@ async function loadSidekick() {
 }
 
 async function loadPage() {
+  await loadTarget();
   await loadEager(document);
   await loadLazy(document);
+  await applyTargetHeroMboxIfConfigured();
   loadDelayed();
   loadSidekick();
 }
