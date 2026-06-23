@@ -8,12 +8,9 @@ const isDesktop = window.matchMedia('(min-width: 1024px)');
  * @returns {Document} parsed nav document
  */
 async function fetchNav() {
-  let resp = await fetch('/content/nav.plain.html');
-  if (!resp.ok) {
-    const navMeta = getMetadata('nav');
-    const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-    resp = await fetch(`${navPath}.plain.html`);
-  }
+  const navMeta = getMetadata('nav');
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  let resp = await fetch(`${navPath}.plain.html`);
   if (!resp.ok) return null;
   const html = await resp.text();
   const parser = new DOMParser();
