@@ -21,6 +21,8 @@ import {
   applyTargetHeroMboxIfConfigured,
 } from './target.js';
 
+export const NX_ORIGIN = 'https://da.live';
+
 // --- BEGIN DM/Scene7 auto-block (excat-generated) ---
 
 const DM_BREAKPOINTS = [
