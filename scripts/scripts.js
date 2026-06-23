@@ -375,9 +375,9 @@ async function loadSidekick() {
 }
 
 async function loadPage() {
-  await loadTarget();
   await loadEager(document);
   await loadLazy(document);
+  await loadTarget();
   await applyTargetHeroMboxIfConfigured();
   loadDelayed();
   loadSidekick();
