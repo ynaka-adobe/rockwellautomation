@@ -57,6 +57,24 @@ export async function loadTarget() {
   } catch (e) {
     logTargetError(e, document.body);
   }
+
+  // Apply mbox offers to target-offer blocks (at.js was not yet loaded when blocks ran)
+  const mboxEls = [...document.querySelectorAll('[data-mbox-name]')];
+  await Promise.all(mboxEls.map(async (el) => {
+    const mboxName = el.dataset.mboxName;
+    const slot = el.querySelector('.target-offer__slot');
+    if (!slot || !mboxName || !window.adobe?.target?.getOffers) return;
+    try {
+      const res = await window.adobe.target.getOffers({
+        request: { execute: { mboxes: [{ index: 0, name: mboxName }] } },
+      });
+      const raw = res?.execute?.mboxes?.[0]?.options?.[0]?.content;
+      const html = Array.isArray(raw) ? raw[0] : raw;
+      if (typeof html === 'string' && html !== '') slot.innerHTML = html;
+    } catch (e) {
+      logTargetError(e, el);
+    }
+  }));
 }
 
 /**
