@@ -1,12 +1,19 @@
-import { getMetadata } from '../../scripts/aem.js';
+import { getMetadata, loadSections } from '../../scripts/aem.js';
 
 /**
  * Adobe Target HTML offer slot.
  * - VEC / page-load: point activities at `.target-offer` or `[data-mbox-name="…"]`
- *   (see scripts.js applyTargetPageLoad after blocks load when `<meta name="target">` is set).
- * - Optional: first table row with a single cell = mbox name triggers a post-init
- *   getOffers request when real at.js is wired (deps/at/at.js).
+ * - Block mbox name + default content from authoring (UE or table rows).
  */
+
+async function loadArea(area) {
+  const { decorateMain } = await import('../../scripts/scripts.js');
+  const main = document.createElement('main');
+  while (area.firstChild) main.append(area.firstChild);
+  decorateMain(main);
+  await loadSections(main);
+  while (main.firstChild) area.append(main.firstChild);
+}
 
 function directChildRowOf(el, node) {
   let row = node;
@@ -25,9 +32,8 @@ function collectMboxFromFirstRow(rows) {
   return { mboxName: text, contentRows: rows.slice(1) };
 }
 
-/** @param {HTMLElement} el */
 function buildSlot(el) {
-  const mboxPara = el.querySelector('p.target-offer-mbox');
+  const mboxPara = el.querySelector(':scope > p.target-offer-mbox');
   let mboxName = '';
   const slot = document.createElement('div');
   slot.className = 'target-offer__slot';
@@ -74,13 +80,15 @@ async function applyMboxContent(slot, mboxName) {
     if (html == null || html === '') return;
 
     slot.innerHTML = typeof html === 'string' ? html : '';
+    await loadArea(slot);
   } catch (ex) {
     // eslint-disable-next-line no-console
-    console.error(ex);
+    console.error('[target-offer]', ex, slot);
   }
 }
 
-export default async function init(el) {
+export default async function decorate(block) {
+  const el = block.classList.contains('target-offer') ? block : block.closest('.target-offer') || block;
   el.classList.add('target-offer--decorated');
   const exportSpan = el.querySelector(':scope > .target-offer-export-id');
   const exportId = (exportSpan?.textContent || el.dataset.targetExportId || '').trim();
