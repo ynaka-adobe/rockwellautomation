@@ -21,7 +21,7 @@ import {
   applyTargetHeroMboxIfConfigured,
 } from './target.js';
 
-export const NX_ORIGIN = 'https://da.live';
+export const NX_ORIGIN = 'https://da.live'; // required by sidekick.js
 
 // --- BEGIN DM/Scene7 auto-block (excat-generated) ---
 
