@@ -194,13 +194,15 @@
         "valueType": "string",
         "name": "quote",
         "label": "Quote",
-        "required": true
+        "required": true,
+        "selector": "div:nth-child(1)>div:nth-child(1)"
       },
       {
         "component": "text",
         "name": "author",
         "label": "Author",
-        "valueType": "string"
+        "valueType": "string",
+        "selector": "div:nth-child(1)>div:nth-child(2)"
       }
     ]
   },

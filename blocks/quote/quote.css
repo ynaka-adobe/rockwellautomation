@@ -2,6 +2,10 @@
   margin: 0 auto;
   padding: 0 24px;
   max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
 }
 
 @media (width >= 900px) {
@@ -32,10 +36,15 @@
 }
 
 .quote blockquote .quote-attribution {
-  text-align: right;
+  text-align: left;
 }
 
 .quote blockquote .quote-attribution > :first-child::before {
   content: "—";
   padding-right: 0.5ch;
+}
+
+.quote.black {
+  background-color: var(--color-black, #000);
+  color: var(--color-white, #fff);
 }
