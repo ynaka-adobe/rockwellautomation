@@ -24,11 +24,18 @@ export default async function decorate(block) {
   }
 }
 
-const DATE_KEY = 'date';
+const DATE_KEY = 'promo-date';
 
+// Usage:
+//   ?date=2026-06-02   — override date for this session
+//   ?date=reset        — clear override and return to today
 function getEffectiveDate() {
   const params = new URLSearchParams(window.location.search);
-  const urlDate = params.get(DATE_KEY);
+  const urlDate = params.get('date');
+  if (urlDate === 'reset') {
+    sessionStorage.removeItem(DATE_KEY);
+    return new Date();
+  }
   if (urlDate) {
     sessionStorage.setItem(DATE_KEY, urlDate);
     return new Date(urlDate);
