@@ -84,25 +84,52 @@ function buildUtilityBar(utilityLinks) {
 
   const localeWrapper = document.createElement('div');
   localeWrapper.className = 'nav-locale';
-  localeWrapper.setAttribute('aria-label', 'Select language');
 
   const languages = [
-    { label: 'EN', href: '/en-us', current: true },
-    { label: 'DE', href: '/de/home' },
-    { label: 'FR', href: '/fr/home' },
-    { label: 'ES', href: '/es/home' },
+    { label: 'English', code: 'EN', href: '/en-us', current: true },
+    { label: 'Deutsch', code: 'DE', href: '/de/home' },
+    { label: 'Français', code: 'FR', href: '/fr/home' },
+    { label: 'Español', code: 'ES', href: '/es/home' },
   ];
 
-  localeWrapper.innerHTML = getGlobeIcon();
+  const current = languages.find((l) => l.current);
+  const trigger = document.createElement('button');
+  trigger.className = 'nav-locale-trigger';
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.setAttribute('aria-haspopup', 'listbox');
+  trigger.setAttribute('aria-label', 'Select language');
+  trigger.innerHTML = `${getGlobeIcon()}<span>${current.code}</span>${getChevronIcon()}`;
+
+  const dropdown = document.createElement('ul');
+  dropdown.className = 'nav-locale-dropdown';
+  dropdown.setAttribute('role', 'listbox');
   languages.forEach((lang) => {
+    const li = document.createElement('li');
+    li.setAttribute('role', 'option');
     const a = document.createElement('a');
     a.href = lang.href;
     a.textContent = lang.label;
-    a.className = 'nav-locale-link';
-    if (lang.current) a.setAttribute('aria-current', 'true');
-    localeWrapper.append(a);
+    a.className = 'nav-locale-option';
+    if (lang.current) {
+      a.setAttribute('aria-current', 'true');
+      li.setAttribute('aria-selected', 'true');
+    }
+    li.append(a);
+    dropdown.append(li);
   });
 
+  trigger.addEventListener('click', () => {
+    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!expanded));
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!localeWrapper.contains(e.target)) {
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  localeWrapper.append(trigger, dropdown);
   bar.append(localeWrapper);
 
   const links = document.createElement('ul');
