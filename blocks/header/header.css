@@ -34,27 +34,32 @@
 .nav-locale {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  padding: 4px 8px;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: var(--body-font-family);
-  color: var(--text-color);
-  cursor: pointer;
-  border-radius: 4px;
-  white-space: nowrap;
-  transition: background-color 0.2s ease;
-  margin-left: -8px;
-}
-
-.nav-locale:hover {
-  background-color: #f4f4f4;
+  gap: 8px;
+  margin-left: -4px;
 }
 
 .nav-locale svg {
   flex-shrink: 0;
+}
+
+.nav-locale-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-locale-link:hover {
+  background-color: #f4f4f4;
+  color: var(--link-color);
+}
+
+.nav-locale-link[aria-current='true'] {
+  font-weight: 700;
+  color: var(--brand-red);
 }
 
 .nav-utility-links {

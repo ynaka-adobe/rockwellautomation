@@ -82,11 +82,28 @@ function buildUtilityBar(utilityLinks) {
   const bar = document.createElement('div');
   bar.className = 'nav-utility-bar';
 
-  const locale = document.createElement('button');
-  locale.className = 'nav-locale';
-  locale.setAttribute('aria-label', 'Select region and language: US English');
-  locale.innerHTML = `${getGlobeIcon()}<span>US|EN</span>${getChevronIcon()}`;
-  bar.append(locale);
+  const localeWrapper = document.createElement('div');
+  localeWrapper.className = 'nav-locale';
+  localeWrapper.setAttribute('aria-label', 'Select language');
+
+  const languages = [
+    { label: 'EN', href: '/en-us', current: true },
+    { label: 'DE', href: '/de/home' },
+    { label: 'FR', href: '/fr/home' },
+    { label: 'ES', href: '/es/home' },
+  ];
+
+  localeWrapper.innerHTML = getGlobeIcon();
+  languages.forEach((lang) => {
+    const a = document.createElement('a');
+    a.href = lang.href;
+    a.textContent = lang.label;
+    a.className = 'nav-locale-link';
+    if (lang.current) a.setAttribute('aria-current', 'true');
+    localeWrapper.append(a);
+  });
+
+  bar.append(localeWrapper);
 
   const links = document.createElement('ul');
   links.className = 'nav-utility-links';
