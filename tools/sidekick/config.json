@@ -18,6 +18,13 @@
       "passConfig": true,
       "environments": ["preview", "live", "edit"],
       "includePaths": ["**"]
+    },
+    {
+      "id": "drafts",
+      "title": "Drafts",
+      "url": "https://main--rockwellautomation--ynaka-adobe.aem.live/drafts/",
+      "environments": ["preview", "live", "edit"],
+      "includePaths": ["**"]
     }
   ]
 }

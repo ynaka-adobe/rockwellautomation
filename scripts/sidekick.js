@@ -20,4 +20,5 @@ async function toggleExp() {
   const sk = document.querySelector('aem-sidekick');
   if (!sk) return;
   sk.addEventListener('custom:experimentation', toggleExp);
+
 }());
